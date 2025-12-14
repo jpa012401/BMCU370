@@ -1068,9 +1068,12 @@ void send_for_long_packge_filament(unsigned char *buf, int length)
     data.target_address = printer_data_long.source_address;
     Bambubus_long_package_send(&data);
 }
-unsigned char serial_number[] = {"STUDY0ONLY"};
+// valid AMS Lite serail: 03C12A532105140, 03C12A392001624, 03C12A442217989, 03C12A3A2705810, 
+// valid AMS1 serail: 00600A481900712, 00600A471003546, 00600A491903089, 
+unsigned char serial_number_lite[] = {"03C12A532105140"};
+unsigned char serial_number_ams[] = {"00600A471003546"};
 unsigned char long_packge_version_serial_number[] = {9, // length
-                                                     'S', 'T', 'U', 'D', 'Y', 'O', 'N', 'L', 'Y', 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                                     'S', 'T', 'U', 'D', 'Y', 'O', 'N', 'L', 'Y', 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // serial, will be overwritten
                                                      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                                      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // serial_number#2
                                                      0x30, 0x30, 0x30, 0x30,
@@ -1079,18 +1082,32 @@ unsigned char long_packge_version_serial_number[] = {9, // length
 
 void send_for_long_packge_serial_number(unsigned char *buf, int length)
 {
-    long_packge_data data;
     Bambubus_long_package_analysis(buf, length, &printer_data_long);
-    uint8_t AMS_num = printer_data_long.datas[33];
-    if (AMS_num != BambuBus_AMS_num)
+    uint8_t ams_num = printer_data_long.datas[33];
+    if (ams_num != BambuBus_AMS_num)
         return;
     if ((printer_data_long.target_address != BambuBus_AMS) && (printer_data_long.target_address != BambuBus_AMS_lite))
     {
         return;
     }
 
-    long_packge_version_serial_number[0] = sizeof(serial_number);
-    memcpy(long_packge_version_serial_number + 1, serial_number, sizeof(serial_number));
+    // write serial number into array
+    unsigned char *p_serial;
+    int serial_len;
+    if (printer_data_long.target_address == BambuBus_AMS)
+    {
+        p_serial = serial_number_ams;
+        serial_len = sizeof(serial_number_ams);
+    }
+    else
+    {
+        p_serial = serial_number_lite;
+        serial_len = sizeof(serial_number_lite);
+    }
+    long_packge_version_serial_number[0] = serial_len;
+    memcpy(long_packge_version_serial_number + 1, p_serial, serial_len);
+
+    long_packge_data data;
     data.datas = long_packge_version_serial_number;
     data.data_length = sizeof(long_packge_version_serial_number);
     data.datas[65] = BambuBus_AMS_num;
@@ -1102,10 +1119,10 @@ void send_for_long_packge_serial_number(unsigned char *buf, int length)
     Bambubus_long_package_send(&data);
 }
 
-unsigned char long_packge_version_version_and_name_AMS_lite[] = {0x03, 0x02, 0x01, 0x00, // version number (00.01.02.03)
-                                                                 0x41, 0x4D, 0x53, 0x5F, 0x46, 0x31, 0x30, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};  // AMS_F102 hw code name 
-unsigned char long_packge_version_version_and_name_AMS08[] = {0x31, 0x06, 0x00, 0x00, // version number (00.00.06.49)
-                                                              0x41, 0x4D, 0x53, 0x30, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+unsigned char long_packge_version_version_and_name_AMS_lite[] = {0x04, 0x03, 0x02, 0x01, // version number (01.02.03.04)
+                                                                 0x41, 0x4D, 0x53, 0x5F, 0x46, 0x31, 0x30, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};  // "AMS_F102" hw code name 
+unsigned char long_packge_version_version_and_name_AMS08[] = {0x04, 0x03, 0x02, 0x01, // version number (01.02.03.04)
+                                                              0x41, 0x4D, 0x53, 0x30, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};  // "AMS08" hw code name
 
 void send_for_long_packge_version(unsigned char *buf, int length)
 {
