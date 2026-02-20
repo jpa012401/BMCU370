@@ -1,1 +1,1 @@
-该项目是拓竹3D打印机耗材自动管理组件（AMS）的固件。使用platformio编译，主控芯片为CH32V203
+This project is the firmware for Bambu Lab 3D printer Automatic Material System (AMS). Compiled using PlatformIO, the main controller chip is CH32V203.

@@ -1,35 +1,33 @@
 # BMCU370
-BMCU星尘修改版最新（BMCU-C 370霍尔版 V0.1-0020）源码，原项目链接：[Xing-C/BMCU370x](https://github.com/Xing-C/BMCU370x)。有一些个人小优化。
-
-BMCU Xing-C modified version latest (BMCU-C Hall V0.1-0020) source code. Includes some minor personal optimizations.
+BMCU Xing-C modified version latest (BMCU-C 370 Hall Version V0.1-0020) source code. Original project: [Xing-C/BMCU370x](https://github.com/Xing-C/BMCU370x). Includes some minor personal optimizations.
 
 
-# 链接
-- english wiki: https://wiki.yuekai.fr/
-- 中文wiki：https://bmcu.wanzii.cn/
+# Links
+- English wiki: https://wiki.yuekai.fr/
+- Chinese wiki: https://bmcu.wanzii.cn/
 
 
-# 更新日志
-从群文件里拷贝来的
+# Changelog
+Copied from group files
 
-### 25-7月17日-0020；
-修复灯光逻辑错误，导致一些状态不亮灯。
-修复通道意外上线
-修正防掉线，之前并未生效
-重写灯光系统，修复了闪烁问题，降低了刷新频率。
-当通道错误时，每隔3秒尝试更新一次红色，避免BMCU进入工作状态后插入的通道不亮灯。
+### 2025-07-17 - 0020
+- Fixed lighting logic errors that caused some states to not light up
+- Fixed channels unexpectedly coming online
+- Fixed anti-disconnect feature (previously not working)
+- Rewrote lighting system, fixed flickering issues, reduced refresh rate
+- When a channel has an error, attempts to update with red light every 3 seconds to prevent channels inserted after BMCU enters working state from not lighting up
 
 
-### 25-7月6日-0019修改版；
-双微动霍尔版本也可用。
+### 2025-07-06 - 0019 Modified Version
+Also compatible with dual micro-switch Hall version.
 
-首先 是0019原版对于0013原版的改变；
-根据刷入固件不同可以让P1X1支持16色了
-修复了P1X1打印机固件升级后（目前最新00.01.06.62），或切片软件最新版(目前2.1.1.52)下，无法保存耗材丝信息的问题。
-修改了在线逻辑判断，防止某些状态下出现错误的通道在线。
-修改了电机控制逻辑，在高低电压位使用不同调用。
+**Changes from original 0019 compared to original 0013:**
+- P1X1 can now support 16 colors depending on the firmware flashed
+- Fixed issue where filament information could not be saved after P1X1 printer firmware update (currently latest 00.01.06.62) or with latest slicer software (currently 2.1.1.52)
+- Modified online logic detection to prevent incorrect channel online status in certain states
+- Modified motor control logic, using different calls for high and low voltage positions
 
-然后 对于上个版本0013修改灯效防过热版本的变动；
-主板灯光，未连接打印机时红色呼吸，正常工作时白色呼吸。
-进一步降低缓冲灯光和主板灯光的亮度。
-退料部分，抛弃对A1进行控制。
+**Changes from previous 0013 modified version (lighting effects anti-overheating version):**
+- Mainboard lighting: red breathing when not connected to printer, white breathing during normal operation
+- Further reduced brightness of buffer lights and mainboard lights
+- Unload section: removed control for A1

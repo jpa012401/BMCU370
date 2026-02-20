@@ -39,7 +39,7 @@ bool Flash_saves(void *buf, uint32_t length, uint32_t address)
     uint32_t page_num = length / FLASH_PAGE_SIZE;
     uint16_t *data_ptr = (uint16_t *)buf;
 
-    __disable_irq(); // 禁用中断
+    __disable_irq(); // Disable interrupts
     FLASH_Unlock();
 
     FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_WRPRTERR);

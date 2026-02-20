@@ -82,7 +82,7 @@ void Debug_log_write_num(const void *data, int num)
     Debug_log_DMA_InitStructure.DMA_BufferSize = num;
     DMA_Init(DMA1_Channel2, &Debug_log_DMA_InitStructure);
     DMA_Cmd(DMA1_Channel2, ENABLE);
-    // 使能USART3 DMA发送
+    // Enable USART3 DMA transmit
     USART_DMACmd(USART3, USART_DMAReq_Tx, ENABLE);
 }
 

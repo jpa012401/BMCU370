@@ -125,13 +125,14 @@
 #define NEO_BGWR ((2 << 6) | (3 << 4) | (1 << 2) | (0)) ///< Transmit as B,G,W,R
 #define NEO_BGRW ((3 << 6) | (2 << 4) | (1 << 2) | (0)) ///< Transmit as B,G,R,W
 
-// 添加 NEO_KHZ400 到颜色顺序值以指示 400 KHz 设备。
-// 除了最早的 v1 NeoPixels，其他都需要 800 KHz 数据流，
-// 如果未指定，这是默认值。由于 ATtiny 设备（如 Trinket、Gemma）
-// 的闪存空间非常有限，v1 NeoPixels 默认不在这些芯片上支持，
-// 但可以通过移除下面的 ifndef/endif 来启用，
-// 这样代码会变大。反之，在其他 MCU 上可以禁用 NEO_KHZ400 这一行，
-// 以移除 v1 支持并节省一些空间。
+// Add NEO_KHZ400 to color order value to indicate 400 KHz device.
+// All but the earliest v1 NeoPixels require 800 KHz data stream,
+// this is the default if not specified. Due to very limited flash space
+// on ATtiny devices (like Trinket, Gemma), v1 NeoPixels are not supported
+// by default on these chips, but can be enabled by removing the
+// ifndef/endif below, which will increase code size. Conversely,
+// on other MCUs, the NEO_KHZ400 line can be disabled to remove v1 support
+// and save some space.
 
 #define NEO_KHZ800 0x0000 ///< 800 KHz data transmission
 #ifndef __AVR_ATtiny85__
